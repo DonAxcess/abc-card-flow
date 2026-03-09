@@ -63,6 +63,7 @@ export default function Dashboard() {
     setEditingCard(null);
     setBusinessName(""); setCategory("General"); setDescription("");
     setContactPhone(""); setContactEmail(""); setContactWebsite(""); setLocation("");
+    setLogoUrl("");
     setShowForm(false);
   }
 
