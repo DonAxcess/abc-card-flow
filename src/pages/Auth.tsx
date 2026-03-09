@@ -77,39 +77,64 @@ export default function Auth() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 space-y-4">
-          {isSignUp && (
-            <>
-              <div>
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input id="fullName" value={fullName} onChange={e => setFullName(e.target.value)} required />
-              </div>
-              <div>
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" value={phone} onChange={e => setPhone(e.target.value)} placeholder="0712345678" />
-              </div>
-            </>
-          )}
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-          </div>
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} />
-          </div>
+        {forgotMode ? (
+          <form onSubmit={handleForgotPassword} className="bg-card border border-border rounded-lg p-6 space-y-4">
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <Button type="submit" className="w-full bg-gold text-accent-foreground hover:bg-gold-light" disabled={loading}>
+              {loading ? "Please wait..." : "Send Reset Link"}
+            </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              <button type="button" onClick={() => setForgotMode(false)} className="text-gold hover:underline font-medium">
+                Back to Sign In
+              </button>
+            </p>
+          </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 space-y-4">
+            {isSignUp && (
+              <>
+                <div>
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input id="fullName" value={fullName} onChange={e => setFullName(e.target.value)} required />
+                </div>
+                <div>
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input id="phone" value={phone} onChange={e => setPhone(e.target.value)} placeholder="0712345678" />
+                </div>
+              </>
+            )}
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+            </div>
+            <div>
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} />
+            </div>
 
-          <Button type="submit" className="w-full bg-gold text-accent-foreground hover:bg-gold-light" disabled={loading}>
-            {loading ? "Please wait..." : isSignUp ? "Create Account" : "Sign In"}
-          </Button>
+            {!isSignUp && (
+              <div className="text-right">
+                <button type="button" onClick={() => setForgotMode(true)} className="text-sm text-gold hover:underline font-medium">
+                  Forgot password?
+                </button>
+              </div>
+            )}
 
-          <p className="text-center text-sm text-muted-foreground">
-            {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="text-gold hover:underline font-medium">
-              {isSignUp ? "Sign In" : "Sign Up"}
-            </button>
-          </p>
-        </form>
+            <Button type="submit" className="w-full bg-gold text-accent-foreground hover:bg-gold-light" disabled={loading}>
+              {loading ? "Please wait..." : isSignUp ? "Create Account" : "Sign In"}
+            </Button>
+
+            <p className="text-center text-sm text-muted-foreground">
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+              <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="text-gold hover:underline font-medium">
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </button>
+            </p>
+          </form>
+        )}
       </div>
     </div>
   );
