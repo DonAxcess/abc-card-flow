@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, CreditCard, Clock } from "lucide-react";
 import BusinessCard from "@/components/BusinessCard";
+import LogoUpload from "@/components/LogoUpload";
 
 const CATEGORIES = ["General", "Food & Beverage", "Technology", "Health", "Education", "Fashion", "Construction", "Transport", "Finance", "Agriculture", "Beauty", "Real Estate", "Other"];
 
