@@ -55,6 +55,7 @@ export default function Dashboard() {
     setContactEmail(card.contact_email ?? "");
     setContactWebsite(card.contact_website ?? "");
     setLocation(card.location ?? "");
+    setLogoUrl(card.logo_url ?? "");
     setShowForm(true);
   }
 
