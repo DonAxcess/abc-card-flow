@@ -79,6 +79,7 @@ export default function Dashboard() {
       contact_email: contactEmail,
       contact_website: contactWebsite,
       location,
+      logo_url: logoUrl,
       user_id: user.id,
     };
 
