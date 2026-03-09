@@ -71,9 +71,11 @@ export default function Auth() {
           <div className="w-16 h-16 rounded-xl gradient-gold flex items-center justify-center font-display font-bold text-accent-foreground text-2xl mx-auto mb-4">
             ABC
           </div>
-          <h1 className="font-display text-2xl font-bold">{isSignUp ? "Join the Community" : "Welcome Back"}</h1>
+          <h1 className="font-display text-2xl font-bold">
+            {forgotMode ? "Reset Password" : isSignUp ? "Join the Community" : "Welcome Back"}
+          </h1>
           <p className="text-muted-foreground mt-1">
-            {isSignUp ? "Create your account to list your business" : "Sign in to manage your business cards"}
+            {forgotMode ? "Enter your email to receive a reset link" : isSignUp ? "Create your account to list your business" : "Sign in to manage your business cards"}
           </p>
         </div>
 
