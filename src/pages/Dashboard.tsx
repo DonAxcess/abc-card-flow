@@ -153,6 +153,15 @@ export default function Dashboard() {
             <div><Label>Location</Label><Input value={location} onChange={e => setLocation(e.target.value)} /></div>
           </div>
           <div><Label>Description</Label><Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} /></div>
+          <div>
+            <Label>Business Logo</Label>
+            <LogoUpload
+              currentUrl={logoUrl || undefined}
+              onUpload={(url) => setLogoUrl(url)}
+              onRemove={() => setLogoUrl("")}
+              userId={user!.id}
+            />
+          </div>
           <div className="flex gap-3">
             <Button type="submit" className="bg-gold text-accent-foreground hover:bg-gold-light">{editingCard ? "Update Card" : "Submit Card"}</Button>
             <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>
