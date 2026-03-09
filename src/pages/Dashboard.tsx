@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [contactEmail, setContactEmail] = useState("");
   const [contactWebsite, setContactWebsite] = useState("");
   const [location, setLocation] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
 
   useEffect(() => {
     if (user) loadData();
