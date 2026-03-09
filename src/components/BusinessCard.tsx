@@ -21,7 +21,11 @@ export default function BusinessCard({ card, slotLabel }: Props) {
         </div>
       ) : (
         <div className="h-40 gradient-navy flex items-center justify-center">
-          <span className="text-3xl font-display font-bold text-gold">{card.business_name.charAt(0)}</span>
+          {card.logo_url ? (
+            <img src={card.logo_url} alt={card.business_name} className="w-20 h-20 object-contain rounded-lg" />
+          ) : (
+            <span className="text-3xl font-display font-bold text-gold">{card.business_name.charAt(0)}</span>
+          )}
         </div>
       )}
 

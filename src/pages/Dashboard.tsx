@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, CreditCard, Clock } from "lucide-react";
 import BusinessCard from "@/components/BusinessCard";
+import LogoUpload from "@/components/LogoUpload";
 
 const CATEGORIES = ["General", "Food & Beverage", "Technology", "Health", "Education", "Fashion", "Construction", "Transport", "Finance", "Agriculture", "Beauty", "Real Estate", "Other"];
 
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const [contactEmail, setContactEmail] = useState("");
   const [contactWebsite, setContactWebsite] = useState("");
   const [location, setLocation] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
 
   useEffect(() => {
     if (user) loadData();
@@ -53,6 +55,7 @@ export default function Dashboard() {
     setContactEmail(card.contact_email ?? "");
     setContactWebsite(card.contact_website ?? "");
     setLocation(card.location ?? "");
+    setLogoUrl(card.logo_url ?? "");
     setShowForm(true);
   }
 
@@ -60,6 +63,7 @@ export default function Dashboard() {
     setEditingCard(null);
     setBusinessName(""); setCategory("General"); setDescription("");
     setContactPhone(""); setContactEmail(""); setContactWebsite(""); setLocation("");
+    setLogoUrl("");
     setShowForm(false);
   }
 
@@ -75,6 +79,7 @@ export default function Dashboard() {
       contact_email: contactEmail,
       contact_website: contactWebsite,
       location,
+      logo_url: logoUrl,
       user_id: user.id,
     };
 
@@ -148,6 +153,15 @@ export default function Dashboard() {
             <div><Label>Location</Label><Input value={location} onChange={e => setLocation(e.target.value)} /></div>
           </div>
           <div><Label>Description</Label><Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} /></div>
+          <div>
+            <Label>Business Logo</Label>
+            <LogoUpload
+              currentUrl={logoUrl || undefined}
+              onUpload={(url) => setLogoUrl(url)}
+              onRemove={() => setLogoUrl("")}
+              userId={user!.id}
+            />
+          </div>
           <div className="flex gap-3">
             <Button type="submit" className="bg-gold text-accent-foreground hover:bg-gold-light">{editingCard ? "Update Card" : "Submit Card"}</Button>
             <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>
