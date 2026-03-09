@@ -16,6 +16,23 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const [forgotMode, setForgotMode] = useState(false);
+
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Check your email", description: "We've sent you a password reset link." });
+      setForgotMode(false);
+    }
+    setLoading(false);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
