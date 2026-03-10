@@ -119,8 +119,9 @@ export default function Auth() {
             </div>
 
             {!isSignUp && (
-              <div className="text-right">
-                <button type="button" onClick={() => setForgotMode(true)} className="text-sm text-gold hover:underline font-medium">
+              <div className="text-center py-1">
+                <button type="button" onClick={() => setForgotMode(true)} className="inline-flex items-center gap-1.5 text-base text-gold hover:text-gold-light hover:underline font-semibold transition-colors">
+                  <KeyRound size={18} />
                   Forgot password?
                 </button>
               </div>
