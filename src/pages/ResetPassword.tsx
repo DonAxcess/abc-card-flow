@@ -21,10 +21,18 @@ export default function ResetPassword() {
         setReady(true);
       }
     });
+
+    // Check URL hash for recovery type (Supabase appends #type=recovery)
+    const hash = window.location.hash;
+    if (hash.includes("type=recovery")) {
+      setReady(true);
+    }
+
     // Also check if we already have a session (user clicked link and was auto-logged in)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setReady(true);
     });
+
     return () => subscription.unsubscribe();
   }, []);
 
