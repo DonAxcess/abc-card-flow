@@ -22,9 +22,15 @@ export default function ResetPassword() {
       }
     });
 
-    // Check URL hash for recovery type (Supabase appends #type=recovery)
+    // Check URL hash/search for recovery params (providers may append either)
     const hash = window.location.hash;
-    if (hash.includes("type=recovery")) {
+    const search = window.location.search;
+    if (
+      hash.includes("type=recovery") ||
+      search.includes("type=recovery") ||
+      hash.includes("access_token=") ||
+      search.includes("access_token=")
+    ) {
       setReady(true);
     }
 
