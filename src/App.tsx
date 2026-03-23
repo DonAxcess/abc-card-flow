@@ -23,7 +23,11 @@ const hasRecoveryParams = () => {
     hash.includes("type=recovery") ||
     search.includes("type=recovery") ||
     hash.includes("access_token=") ||
-    search.includes("access_token=")
+    search.includes("access_token=") ||
+    hash.includes("error_code=") ||
+    search.includes("error_code=") ||
+    hash.includes("error_description=") ||
+    search.includes("error_description=")
   );
 };
 
