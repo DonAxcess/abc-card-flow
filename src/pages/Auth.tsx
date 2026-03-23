@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { KeyRound } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AlertCircle, KeyRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Auth() {
+  const searchParams = useMemo(() => new URLSearchParams(window.location.search), []);
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +18,8 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotMode, setForgotMode] = useState(searchParams.get("forgot") === "1");
+  const resetStatus = searchParams.get("reset");
 
   async function handleForgotPassword(e: React.FormEvent) {
     e.preventDefault();
@@ -82,6 +84,14 @@ export default function Auth() {
 
         {forgotMode ? (
           <form onSubmit={handleForgotPassword} className="bg-card border border-border rounded-lg p-6 space-y-4">
+            {resetStatus === "expired" && (
+              <div className="rounded-md border border-destructive/30 bg-destructive/5 p-3 text-sm text-foreground">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="mt-0.5 h-4 w-4 text-destructive" />
+                  <p>Your reset link is invalid or has expired. Enter your email below and we’ll send you a fresh one.</p>
+                </div>
+              </div>
+            )}
             <div>
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />

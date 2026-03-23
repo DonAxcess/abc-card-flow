@@ -6,11 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
+const getAuthParams = () => {
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const search = new URLSearchParams(window.location.search);
+
+  return {
+    errorDescription: hash.get("error_description") || search.get("error_description"),
+    hasRecoveryToken:
+      hash.has("type") && hash.get("type") === "recovery" ||
+      search.has("type") && search.get("type") === "recovery" ||
+      hash.has("access_token") ||
+      search.has("access_token"),
+  };
+};
+
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -23,14 +38,12 @@ export default function ResetPassword() {
     });
 
     // Check URL hash/search for recovery params (providers may append either)
-    const hash = window.location.hash;
-    const search = window.location.search;
-    if (
-      hash.includes("type=recovery") ||
-      search.includes("type=recovery") ||
-      hash.includes("access_token=") ||
-      search.includes("access_token=")
-    ) {
+    const { errorDescription, hasRecoveryToken } = getAuthParams();
+    if (errorDescription) {
+      setErrorMessage(errorDescription);
+    }
+
+    if (hasRecoveryToken) {
       setReady(true);
     }
 
@@ -64,6 +77,22 @@ export default function ResetPassword() {
   }
 
   if (!ready) {
+    if (errorMessage) {
+      return (
+        <div className="min-h-screen flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md rounded-lg border border-border bg-card p-6 text-center space-y-4">
+            <div>
+              <h1 className="font-display text-2xl font-bold">Reset link expired</h1>
+              <p className="mt-2 text-muted-foreground">{errorMessage}. Request a new password reset email to continue.</p>
+            </div>
+            <Button type="button" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => navigate("/auth?forgot=1&reset=expired")}>
+              Request a new reset link
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <p className="text-muted-foreground">Verifying your reset link…</p>
